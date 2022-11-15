@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>그랩마켓</title>
     <link href="index.css" type="text/css" rel="stylesheet"/>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div id="header">
@@ -21,53 +22,41 @@
 <div id="footer"></div>
 </body>
 <script>
-    let products = [
-        {
-            name: "농구공",
-            price: 10000,
-            seller: "조단",
-            imageUrl: "images/products/basketball1.jpeg",
-        },
-        {
-            name: "축구공",
-            price: 50000,
-            seller: "메시",
-            imageUrl: "images/products/soccerball1.jpg",
-        },
-        {
-            name: "키보드",
-            price: 15000,
-            seller: "빌게이츠",
-            imageUrl: "images/products/keyboard1.jpg",
-        },
-    ]
-    let productsHtml = ""
-    for (let i = 0; i < products.length; i++) {
-        let product = products[i]
-        productsHtml = productsHtml +
-            '<div class="product-card">' +
-            "<div>" +
-            '<img class="product-img" src="' +
-            product.imageUrl +
-            '" />' +
-            "</div>" +
-            '<div class="product-contents">' +
-            '<span class="product-name">' +
-            product.name +
-            "</span>" +
-            '<span class="product-price">' +
-            product.price +
-            "원" +
-            "</span>" +
-            '<div class="product-seller">' +
-            '<img class="product-avatar" src="images/icons/avatar.png" />' +
-            "<span>" +
-            product.seller +
-            "</span>" +
-            "</div>" +
-            "</div>" +
-            "</div>"
-    }
-    document.querySelector("#product-list").innerHTML = productsHtml
+    axios.get('https://dcaacafb-91a0-4325-8a95-8a8795b5462c.mock.pstmn.io/products')
+        .then(function (result) {
+            console.log('통신결과 :', result)
+            const products = result.data.products
+            let productsHtml = ""
+            for (let i = 0; i < products.length; i++) {
+                let product = products[i]
+                productsHtml = productsHtml +
+                    '<div class="product-card">' +
+                    "<div>" +
+                    '<img class="product-img" src="' +
+                    product.imageUrl +
+                    '" />' +
+                    "</div>" +
+                    '<div class="product-contents">' +
+                    '<span class="product-name">' +
+                    product.name +
+                    "</span>" +
+                    '<span class="product-price">' +
+                    product.price +
+                    "원" +
+                    "</span>" +
+                    '<div class="product-seller">' +
+                    '<img class="product-avatar" src="images/icons/avatar.png" />' +
+                    "<span>" +
+                    product.seller +
+                    "</span>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>"
+            }
+            document.querySelector("#product-list").innerHTML = productsHtml
+        }).catch(function (error) {
+        console.log('error 발생 :', error)
+    })
+
 </script>
 </html>
